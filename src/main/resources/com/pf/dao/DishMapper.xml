@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pf.dao.DishMapper">
+    <resultMap id="dishMap" type="com.pf.dto.DishDto">
+        <id column="id" property="id"/>
+        <result column="category_id" property="categoryId"/>
+        <result column="name" property="name"/>
+        <result column="categoryName" property="categoryName"/>
+        <result column="price" property="price"/>
+        <result column="code" property="code"/>
+        <result column="image" property="image"/>
+        <result column="description" property="description"/>
+        <result column="status" property="status"/>
+        <result column="sort" property="sort"/>
+        <collection property="flavorList" javaType="ArrayList" ofType="com.pf.pojo.DishFlavor">
+            <result column="flavorName" property="name"/>
+            <result column="value" property="value"/>
+        </collection>
+    </resultMap>
+    <select id="getWithCategory" resultMap="dishMap">
+        SELECT d.id as id,
+               c.name as categoryName,
+               d.name as name,
+               d.price as price,
+               d.code as code,
+               d.image as image,
+               d.description as description,
+               d.status as status,
+               d.sort as sort,
+               df.name as flavorName,
+               df.value as value
+        FROM dish as d, category as c, dish_flavor as df
+        WHERE d.deleted = 0
+          AND d.category_id = c.id
+          AND df.dish_id = d.id
+        <if test="name != null">
+          AND d.name LIKE #{name}
+        </if>
+        ORDER BY d.sort
+        LIMIT #{currentPage}, #{size};
+    </select>
+</mapper>

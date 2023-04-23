@@ -1,0 +1,20 @@
+server:
+  port: 80
+
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql:///reggie?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true
+    username: root
+    password: sjdt2013
+
+logging:
+  file:
+    path: D:\study_Java\case_reggie
+  logback:
+    rollingpolicy:
+      max-file-size: 5MB
+      file-name-pattern: SERVER.%d.%i.log
+
+filePath: D:\study_Java\upload\
